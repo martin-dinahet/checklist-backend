@@ -12,16 +12,16 @@ export class ChecklistsService {
     private checklistRepository: Repository<Checklist>,
   ) {}
 
-  create = (createChecklistDto: CreateChecklistDto) => {
+  create(createChecklistDto: CreateChecklistDto) {
     const checklist = this.checklistRepository.create(createChecklistDto);
     return this.checklistRepository.save(checklist);
-  };
+  }
 
-  findAll = () => {
+  findAll() {
     return this.checklistRepository.find({ relations: ["tasks"] });
-  };
+  }
 
-  findOne = async (id: string) => {
+  async findOne(id: string) {
     const checklist = await this.checklistRepository.findOne({
       where: { id },
       relations: ["tasks"],
@@ -30,22 +30,22 @@ export class ChecklistsService {
       throw new NotFoundException(`Checklist with id ${id} not found`);
     }
     return checklist;
-  };
+  }
 
-  update = async (id: string, updateChecklistDto: UpdateChecklistDto) => {
+  async update(id: string, updateChecklistDto: UpdateChecklistDto) {
     const checklist = await this.checklistRepository.findOne({
       where: { id },
       relations: ["tasks"],
     });
     Object.assign(checklist, updateChecklistDto);
     return this.checklistRepository.save(checklist);
-  };
+  }
 
-  remove = async (id: string) => {
+  async remove(id: string) {
     const checklist = await this.checklistRepository.findOne({
       where: { id },
       relations: ["tasks"],
     });
     return this.checklistRepository.remove(checklist);
-  };
+  }
 }

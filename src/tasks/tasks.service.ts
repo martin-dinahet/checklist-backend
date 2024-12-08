@@ -11,16 +11,16 @@ export class TasksService {
     @InjectRepository(Task) private taskRepository: Repository<Task>,
   ) {}
 
-  create = (createTaskDto: CreateTaskDto) => {
+  create(createTaskDto: CreateTaskDto) {
     const task = this.taskRepository.create(createTaskDto);
     return this.taskRepository.save(task);
-  };
+  }
 
-  findAll = () => {
+  findAll() {
     return this.taskRepository.find({ relations: ["checklist"] });
-  };
+  }
 
-  findOne = async (id: string) => {
+  async findOne(id: string) {
     const task = await this.taskRepository.findOne({
       where: { id },
       relations: ["checklist"],
@@ -29,22 +29,22 @@ export class TasksService {
       throw new NotFoundException(`Task with id ${id} not found`);
     }
     return task;
-  };
+  }
 
-  update = async (id: string, updateTaskDto: UpdateTaskDto) => {
+  async update(id: string, updateTaskDto: UpdateTaskDto) {
     const task = await this.taskRepository.findOne({
       where: { id },
       relations: ["checklist"],
     });
     Object.assign(task, updateTaskDto);
     return this.taskRepository.save(task);
-  };
+  }
 
-  remove = async (id: string) => {
+  async remove(id: string) {
     const task = await this.taskRepository.findOne({
       where: { id },
       relations: ["checklist"],
     });
     return this.taskRepository.remove(task);
-  };
+  }
 }
