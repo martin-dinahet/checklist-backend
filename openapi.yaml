@@ -1,0 +1,263 @@
+openapi: 3.0.0
+info:
+  title: Checklist and Task API
+  description: API for managing checklists and tasks
+  version: 1.0.0
+
+servers:
+  - url: https://checklist-backend-5r30.onrender.com/
+    description: API URL
+
+paths:
+  /checklists:
+    get:
+      summary: Retrieve all checklists
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Checklist"
+    post:
+      summary: Create a new checklist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateChecklistDto"
+      responses:
+        "201":
+          description: Checklist created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Checklist"
+
+  /checklists/{id}:
+    get:
+      summary: Retrieve a specific checklist
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Checklist"
+        "404":
+          description: Checklist not found
+    patch:
+      summary: Update a checklist
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateChecklistDto"
+      responses:
+        "200":
+          description: Checklist updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Checklist"
+        "404":
+          description: Checklist not found
+    delete:
+      summary: Delete a checklist
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Checklist deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Checklist"
+        "404":
+          description: Checklist not found
+
+  /tasks:
+    get:
+      summary: Retrieve all tasks
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      summary: Create a new task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTaskDto"
+      responses:
+        "201":
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /tasks/{id}:
+    get:
+      summary: Retrieve a specific task
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found
+    patch:
+      summary: Update a task
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTaskDto"
+      responses:
+        "200":
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found
+    delete:
+      summary: Delete a task
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Task deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found
+
+components:
+  schemas:
+    ChecklistStatus:
+      type: string
+      enum: [not started, in progress, done]
+
+    Checklist:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: "#/components/schemas/ChecklistStatus"
+        tasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+
+    CreateChecklistDto:
+      type: object
+      required:
+        - title
+        - description
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: "#/components/schemas/ChecklistStatus"
+
+    UpdateChecklistDto:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: "#/components/schemas/ChecklistStatus"
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        isChecked:
+          type: boolean
+        checklist:
+          $ref: "#/components/schemas/Checklist"
+
+    CreateTaskDto:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        isChecked:
+          type: boolean
+        checklistId:
+          type: integer
+
+    UpdateTaskDto:
+      type: object
+      properties:
+        title:
+          type: string
+        isChecked:
+          type: boolean
+        checklistId:
+          type: integer
