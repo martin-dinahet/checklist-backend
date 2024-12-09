@@ -2,7 +2,7 @@ import { Entity } from "typeorm";
 import { PrimaryGeneratedColumn } from "typeorm";
 import { Column } from "typeorm";
 import { ManyToOne } from "typeorm";
-import { Checklist } from "src/checklists/entities/checklist.entity";
+import { Checklist } from "../../checklists/entities/checklist.entity";
 
 @Entity()
 export class Task {
