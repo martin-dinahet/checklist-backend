@@ -13,6 +13,8 @@ describe("ChecklistsController", () => {
       controllers: [ChecklistsController],
       providers: [
         ChecklistsService,
+        // maybe this doesnt work
+        // TODO debug the imports
         {
           provide: ChecklistsService,
           useValue: {
