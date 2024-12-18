@@ -183,6 +183,25 @@ paths:
         "404":
           description: Task not found
 
+  /tasks/{id}/toggle:
+    patch:
+      summary: Toggle a task's checked status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Task toggled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found
+
 components:
   schemas:
     ChecklistStatus:
