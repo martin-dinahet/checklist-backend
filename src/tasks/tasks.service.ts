@@ -47,4 +47,13 @@ export class TasksService {
     });
     return this.taskRepository.remove(task);
   }
+
+  async toggleTask(id: string) {
+    const task = await this.taskRepository.findOne({
+      where: { id },
+      relations: ["checklsit"],
+    });
+    task.isChecked = !task.isChecked;
+    return this.taskRepository.save(task);
+  }
 }
