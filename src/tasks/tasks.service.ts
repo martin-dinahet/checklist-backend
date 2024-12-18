@@ -53,6 +53,9 @@ export class TasksService {
       where: { id },
       relations: ["checklist"],
     });
+    if (!task) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
     task.isChecked = !task.isChecked;
     return this.taskRepository.save(task);
   }
