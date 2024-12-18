@@ -102,6 +102,16 @@ https://checklist-backend-5r30.onrender.com/
     - Content: Task object
   - 404 - Task not found
 
+#### Toggle a task's checked status
+
+- **PATCH** `/tasks/{id}/toggle`
+- **Parameters**:
+  - `id` (path, required): integer
+- **Response**:
+  - 200 - Task toggled
+    - Content: Task object
+  - 404 - Task not found
+
 ## Data Models
 
 ### ChecklistStatus
