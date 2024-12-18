@@ -48,7 +48,7 @@ export class TasksService {
     return this.taskRepository.remove(task);
   }
 
-  async toggleTask(id: string) {
+  async toggle(id: string) {
     const task = await this.taskRepository.findOne({
       where: { id },
       relations: ["checklsit"],
